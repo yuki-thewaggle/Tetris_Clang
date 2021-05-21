@@ -41,6 +41,7 @@ int minoX = DEFAULT_POS_X;
 int minoY = DEFAULT_POS_Y;
 int minoAngle = 0;
 int minoType = 0;
+int score = 0;
 
 int field[FIELD_WIDTH][FIELD_HEIGHT];
 int backBuffer[FIELD_WIDTH][FIELD_HEIGHT] = {};
@@ -221,17 +222,15 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
 
             if (minoShapes[minoType][_nextA][h][w])
             {
-                //フィールド外判定
                 if (_nextX < 1 || _nextX > FIELD_WIDTH - 2 || _nextY > FIELD_HEIGHT - 1)
                 {
-                    printf("out\n");
+                    // printf("out\n");
                     return false;
                 }
 
-                //移動判定
                 if (field[_nextX][_nextY] == 1)
                 {
-                    printf("cannot move\n");
+                    // printf("cannot move\n");
                     return false;
                 }
             }
@@ -248,7 +247,7 @@ void moveMino(int *minoX, int *minoY, int *minoAngle, int _dx, int _dy, int _da)
     *minoAngle = (*minoAngle + _da) % 4;
 }
 
-
+//コンソールに描画
 void draw()
 {
     copyField();
@@ -264,6 +263,7 @@ void draw()
     }
 }
 
+
 int main(void)
 {
     system("chcp 65001");
@@ -274,9 +274,9 @@ int main(void)
 
     while (1)
     {
-        int dx = 0;
-        int dy = 0;
-        int da = 0;
+        int dx = 0; //横移動
+        int dy = 0; //縦移動
+        int da = 0; //回転
 
         if (_kbhit())
         {
@@ -301,14 +301,12 @@ int main(void)
             }
 
             moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
-
             draw();
         }
 
         if (t != time(NULL))
         {
             t = time(NULL);
-
             dy++;
 
             if (check(minoX + dx, minoY + dy, minoType, minoAngle + da))
@@ -330,27 +328,17 @@ int main(void)
                     }
                     if (lineFill)
                     {
-                        printf("fill\n");
-                        int s = 0; //スコア判定用カウンタ
-                        // for (x = y; 0 < x; x--)
-                        // {
-                        //     memcpy(backBuffer[x], backBuffer[x - 1], FIELD_WIDTH);
-                        //     s = (FIELD_HEIGHT - 1) - y; //下から何回消しているかを計算
-                        // }
+                        // printf("fill\n");
                         for (int i = y; 0 < i; i--)
                         {
                             for(int j = 0; j < FIELD_WIDTH; j++)
                             {
-                                //このyに対して、[W][H]のWをひとつ下げる
                                 field[j][i] = field[j][i - 1];
                             }
-                            s = (FIELD_HEIGHT - 1) - y; //下から何回消しているかを計算
                             y--;
                         }
-                        //f_score(s, &score);
                     }
                 }
-
 
                 minoX = DEFAULT_POS_X;
                 minoY = DEFAULT_POS_Y;
