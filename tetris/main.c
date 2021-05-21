@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
-//#include "conio.h"  //for mac
-//#include <curses.h> //for mac
+//#include <conio.h>
+#include "conio.h"  //for mac
+#include <curses.h> //for mac
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
@@ -44,7 +44,7 @@ int minoType = 0;
 int score = 0;
 
 int field[FIELD_WIDTH][FIELD_HEIGHT];
-int backBuffer[FIELD_WIDTH][FIELD_HEIGHT] = {};
+int displayBuffer[FIELD_WIDTH][FIELD_HEIGHT] = {};
 
 char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
     {
@@ -170,16 +170,16 @@ void initField()
     }
 }
 
-//fieldをbackBufferにコピー
+//fieldをdisplayBufferにコピー
 void copyField()
 {
-    memset(backBuffer, 0, sizeof(backBuffer));
+    memset(displayBuffer, 0, sizeof(displayBuffer));
 
     for (int y = 0; y < FIELD_HEIGHT; y++)
     {
         for (int x = 0; x < FIELD_WIDTH; x++)
         {
-            backBuffer[x][y] |= field[x][y];
+            displayBuffer[x][y] |= field[x][y];
         }
     }
 }
@@ -227,7 +227,7 @@ void moveMino(int *minoX, int *minoY, int *minoAngle, int _dx, int _dy, int _da)
 {
     *minoX += _dx;
     *minoY += _dy;
-    *minoAngle = (*minoAngle + _da) % 4;
+    *minoAngle = (*minoAngle + _da) % MINO_ANGLE_MAX;
 }
 
 //ミノを第一引数に書き出し
@@ -250,13 +250,13 @@ void writeMino(int target[FIELD_WIDTH][FIELD_HEIGHT], int _nextX, int _nextY, in
 void draw()
 {
     copyField();
-    writeMino(backBuffer, minoX, minoY, minoType, minoAngle);
+    writeMino(displayBuffer, minoX, minoY, minoType, minoAngle);
 
     for (int y = 0; y < FIELD_HEIGHT; ++y)
     {
         for (int x = 0; x < FIELD_WIDTH; x++)
         {
-            printf("%s", backBuffer[x][y] ? "回" : "・");
+            printf("%s", displayBuffer[x][y] ? "回" : "・");
         }
         printf("\n");
     }
