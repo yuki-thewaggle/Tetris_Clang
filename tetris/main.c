@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
-//#include "conio.h"  //for mac
-//#include <curses.h> //for mac
+//#include <conio.h>
+#include "conio.h"  //for mac
+#include <curses.h> //for mac
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
@@ -89,7 +89,7 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
              {0, 1, 1, 0},
              {0, 1, 1, 0},
              {0, 0, 0, 0}},
-        },
+        }, 
         //MINO_TYPE_S
         {
             {{0, 0, 0, 0},
@@ -184,22 +184,6 @@ void copyField()
     }
 }
 
-//ミノを第一引数に書き出し
-void writeMino(int target[FIELD_WIDTH][FIELD_HEIGHT], int _nextX, int _nextY, int minoType, int minoAngle)
-{
-    for (int w = 0; w < MINO_WIDTH; w++)
-    {
-        for (int h = 0; h < MINO_HEIGHT; h++)
-        {
-            if (_nextY + h < 0 && minoShapes[minoType][minoAngle][h][w] == 1)
-            {
-                continue;
-            }
-            target[_nextX + w][_nextY + h] |= minoShapes[minoType][minoAngle][h][w];
-        }
-    }
-}
-
 //ミノの移動チェック
 bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
 {
@@ -244,6 +228,22 @@ void moveMino(int *minoX, int *minoY, int *minoAngle, int _dx, int _dy, int _da)
     *minoX += _dx;
     *minoY += _dy;
     *minoAngle = (*minoAngle + _da) % 4;
+}
+
+//ミノを第一引数に書き出し
+void writeMino(int target[FIELD_WIDTH][FIELD_HEIGHT], int _nextX, int _nextY, int minoType, int minoAngle)
+{
+    for (int w = 0; w < MINO_WIDTH; w++)
+    {
+        for (int h = 0; h < MINO_HEIGHT; h++)
+        {
+            if (_nextY + h < 0 && minoShapes[minoType][minoAngle][h][w] == 1)
+            {
+                continue;
+            }
+            target[_nextX + w][_nextY + h] |= minoShapes[minoType][minoAngle][h][w];
+        }
+    }
 }
 
 //コンソールに描画
