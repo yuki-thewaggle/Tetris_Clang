@@ -89,7 +89,8 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
              {0, 1, 1, 0},
              {0, 1, 1, 0},
              {0, 0, 0, 0}},
-        }, //MINO_TYPE_S
+        },
+        //MINO_TYPE_S
         {
             {{0, 0, 0, 0},
              {0, 1, 1, 0},
