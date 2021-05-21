@@ -91,21 +91,21 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
              {0, 0, 0, 0}},
         }, //MINO_TYPE_S
         {
-            {{0, 0, 1, 0},
-             {0, 0, 1, 0},
-             {0, 1, 0, 0},
-             {0, 1, 0, 0}},
             {{0, 0, 0, 0},
-             {1, 1, 1, 0},
-             {0, 0, 1, 1},
+             {0, 1, 1, 0},
+             {1, 1, 0, 0},
              {0, 0, 0, 0}},
-            {{0, 0, 1, 0},
-             {0, 0, 1, 0},
-             {0, 1, 0, 0},
-             {0, 1, 0, 0}},
             {{0, 0, 0, 0},
-             {1, 1, 1, 0},
-             {0, 0, 1, 1},
+             {0, 1, 1, 0},
+             {1, 1, 0, 0},
+             {0, 0, 0, 0}},
+            {{0, 0, 0, 0},
+             {0, 1, 1, 0},
+             {1, 1, 0, 0},
+             {0, 0, 0, 0}},
+            {{0, 0, 0, 0},
+             {0, 1, 1, 0},
+             {1, 1, 0, 0},
              {0, 0, 0, 0}},
         },
         //MINO_TYPE_Z
@@ -113,48 +113,46 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
             //MINO_ANGLE_0
             {{0, 0, 0, 0},
              {1, 1, 0, 0},
-             {0, 0, 1, 1},
+             {0, 1, 1, 0},
              {0, 0, 0, 0}},
-            {{0, 0, 1, 0},
-             {0, 0, 1, 0},
-             {0, 1, 0, 0},
-             {0, 1, 0, 0}},
             {{0, 0, 0, 0},
              {1, 1, 0, 0},
-             {0, 0, 1, 1},
+             {0, 1, 1, 0},
              {0, 0, 0, 0}},
-            {{0, 0, 1, 0},
-             {0, 0, 1, 0},
-             {0, 1, 0, 0},
-             {0, 1, 0, 0}},
-            },
-            //MINO_TYPE_w
-            {
-                //MINO_ANGLE_0
-                {
-                    {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-            },
-            //MINO_TYPE_L
-            {
-                //MINO_ANGLE_0
-                {
-                    {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-            },
-            //MINO_TYPE_T
-            {
-                //MINO_ANGLE_0
-                {
-                    {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-                {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
-            }};
+            {{0, 0, 0, 0},
+             {1, 1, 0, 0},
+             {0, 1, 1, 0},
+             {0, 0, 0, 0}},
+            {{0, 0, 0, 0},
+             {1, 1, 0, 0},
+             {0, 1, 1, 0},
+             {0, 0, 0, 0}},
+        },
+        //MINO_TYPE_W
+        {
+            //MINO_ANGLE_0
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+        },
+        //MINO_TYPE_L
+        {
+            //MINO_ANGLE_0
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+        },
+        //MINO_TYPE_T
+        {
+            //MINO_ANGLE_0
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+            {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
+        }
+    };
 
 //fieldの初期化
 void initField()
@@ -215,7 +213,7 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
             _nextX = _minoX + w;
             _nextY = _minoY + h;
 
-            if (_nextY < 0 || minoShapes [minoType][_nextA][h][w] == 0)
+            if (_nextY < 0 || minoShapes[minoType][_nextA][h][w] == 0)
             {
                 continue;
             }
@@ -263,7 +261,6 @@ void draw()
     }
 }
 
-
 int main(void)
 {
     system("chcp 65001");
@@ -282,22 +279,22 @@ int main(void)
         {
             switch (_getch())
             {
-                case 'a':
-                    if (check(minoX - 1, minoY, minoType, minoAngle))
-                        dx = -1;
-                    break;
-                case 's':
-                    if (check(minoX, minoY + 1, minoType, minoAngle))
-                        dy = 1;
-                    break;
-                case 'd':
-                    if (check(minoX + 1, minoY, minoType, minoAngle))
-                        dx = 1;
-                    break;
-                case 0x20:
-                    if (check(minoX, minoY, minoType, minoAngle + 1))
-                        da = 1;
-                    break;
+            case 'a':
+                if (check(minoX - 1, minoY, minoType, minoAngle))
+                    dx = -1;
+                break;
+            case 's':
+                if (check(minoX, minoY + 1, minoType, minoAngle))
+                    dy = 1;
+                break;
+            case 'd':
+                if (check(minoX + 1, minoY, minoType, minoAngle))
+                    dx = 1;
+                break;
+            case 0x20:
+                if (check(minoX, minoY, minoType, minoAngle + 1))
+                    da = 1;
+                break;
             }
 
             moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
@@ -331,7 +328,7 @@ int main(void)
                         // printf("fill\n");
                         for (int i = y; 0 < i; i--)
                         {
-                            for(int j = 0; j < FIELD_WIDTH; j++)
+                            for (int j = 0; j < FIELD_WIDTH; j++)
                             {
                                 field[j][i] = field[j][i - 1];
                             }
@@ -342,8 +339,8 @@ int main(void)
 
                 minoX = DEFAULT_POS_X;
                 minoY = DEFAULT_POS_Y;
-                minoAngle = 0;
-                minoType = 0;
+                minoAngle = rand() % MINO_ANGLE_MAX;
+                minoType = rand() % MINO_TYPE_MAX;
             }
 
             draw();
