@@ -31,7 +31,7 @@ enum
     MINO_TYPE_O,
     MINO_TYPE_S,
     MINO_TYPE_Z,
-    MINO_TYPE_w,
+    MINO_TYPE_W,
     MINO_TYPE_L,
     MINO_TYPE_T,
     MINO_TYPE_MAX
