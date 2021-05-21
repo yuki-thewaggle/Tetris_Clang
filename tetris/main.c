@@ -31,7 +31,7 @@ enum
     MINO_TYPE_O,
     MINO_TYPE_S,
     MINO_TYPE_Z,
-    MINO_TYPE_J,
+    MINO_TYPE_w,
     MINO_TYPE_L,
     MINO_TYPE_T,
     MINO_TYPE_MAX
@@ -127,7 +127,7 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
              {0, 1, 0, 0},
              {0, 1, 0, 0}},
             },
-            //MINO_TYPE_J
+            //MINO_TYPE_w
             {
                 //MINO_ANGLE_0
                 {
@@ -228,9 +228,8 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
                     return false;
                 }
 
-                // printf("field[%d][%d] = %d\n", _nextX, _nextY, field[_nextX][_nextY]);
                 //移動判定
-                if (/*_nextY < 1 ||*/ field[_nextX][_nextY] == 1 /*|| _nextX < 1 || _nextX > FIELD_WIDTH - 2*/)
+                if (field[_nextX][_nextY] == 1)
                 {
                     printf("cannot move\n");
                     return false;
@@ -249,68 +248,6 @@ void moveMino(int *minoX, int *minoY, int *minoAngle, int _dx, int _dy, int _da)
     *minoAngle = (*minoAngle + _da) % 4;
 }
 
-// bool isCollision(int _minoX, int _minoY, int _minoType, int _minoAngle)
-// {
-//     int nextX;
-//     int nextY;
-//     for (int h = 0; h < MINO_HEIGHT; h++)
-//     {
-//         for (int w = 0; w < MINO_WIDTH; w++)
-//         {
-//             int position = minoShapes[_minoType][_minoAngle][w][h] + w;
-//             nextX = _minoX + position;
-//             nextY = _minoY + position;
-
-//             //フィールド外判定
-//             if ((nextX < 0) || (nextX > FIELD_WIDTH))
-//             {
-//                 printf("out\n");
-//                 return true;
-//             }
-//             //ボトム判定
-//             if (_minoY >= FIELD_HEIGHT)
-//             {
-//                 printf("bottom\n");
-//                 // writeMino(*field, minoX, minoY, minoType, minoAngle);
-//                 minoX = 5;
-//                 minoY = 0;
-//                 return true;
-//             }
-//             //衝突判定
-//             if ((minoShapes[_minoType][_minoAngle][h][nextY] == 1) && (nextY >= 0) && field[nextX][nextY] == 1)
-//             {
-//                 printf("collision\n");
-//                 // writeMino(*field, minoX, minoY, minoType, minoAngle);
-//                 minoX = 5;
-//                 minoY = 0;
-//                 return true;
-//             }
-//         }
-//     }
-
-//     return false;
-// }
-
-// //一番左、一番右、一番上、一番下の座標を返す
-// int* getLimit(int _minoX, int _minoY, int _minoType, int _minoAngle)
-// {
-//     int crd[8] = {}; //{一番上のx, 一番上のy, 一番上のx, 一番上のx, 一番上のx, 一番上のx, 一番上のx, 一番上のx}
-//     int i = 0;
-//     for (int r = 0; r < MINO_HEIGHT; r++)
-//     {
-//         for (int c = 0; c < MINO_WIDTH; c++)
-//         {
-//             int current = minoShapes[_minoType][_minoAngle][r][c] + c;
-//             int _x = _minoX + position;
-//             int _y = _minoY + position;
-//             if (current == 1)
-//             {
-//                 crd()
-//             }
-//         }
-//     }
-//     return crd;
-// }
 
 void draw()
 {
@@ -345,38 +282,27 @@ int main(void)
         {
             switch (_getch())
             {
-                //TODO:checkまとめられそう
-            case 'a':
-                if (check(minoX - 1, minoY, minoType, minoAngle))
-                    //minoX--;
-                    dx = -1;
-                break;
-            case 's':
-                if (check(minoX, minoY + 1, minoType, minoAngle))
-                    //minoY++;
-                    dy = 1;
-                break;
-            case 'd':
-                if (check(minoX + 1, minoY, minoType, minoAngle))
-                    //minoX++;
-                    dx = 1;
-                break;
-            case 0x20:
-                if (check(minoX, minoY, minoType, minoAngle + 1))
-                    // minoAngle = (minoAngle + 1) % MINO_ANGLE_MAX;
-                    da = 1;
-                break;
+                case 'a':
+                    if (check(minoX - 1, minoY, minoType, minoAngle))
+                        dx = -1;
+                    break;
+                case 's':
+                    if (check(minoX, minoY + 1, minoType, minoAngle))
+                        dy = 1;
+                    break;
+                case 'd':
+                    if (check(minoX + 1, minoY, minoType, minoAngle))
+                        dx = 1;
+                    break;
+                case 0x20:
+                    if (check(minoX, minoY, minoType, minoAngle + 1))
+                        da = 1;
+                    break;
             }
 
-            //from
-            //TODO:描画まとめる
-            // printf("%d, %d, %d) -> ", minoX, minoY, minoAngle);
             moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
-            // // printf("%d, %d, %d)\n", minoX, minoY, minoAngle);
 
             draw();
-           // //to
-            // continue;
         }
 
         if (t != time(NULL))
@@ -385,8 +311,6 @@ int main(void)
 
             dy++;
 
-            //from
-            printf("dx, dy, da : %d, %d, %d\n", dx, dy, da);
             if (check(minoX + dx, minoY + dy, minoType, minoAngle + da))
             {
                 moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
@@ -394,6 +318,39 @@ int main(void)
             else
             {
                 writeMino(field, minoX, minoY, minoType, minoAngle);
+
+                int x, y;
+                for (y = 0; y < FIELD_HEIGHT - 1; y++)
+                {
+                    bool lineFill = true;
+                    for (x = 1; x < FIELD_WIDTH - 1; x++)
+                    {
+                        if (!field[x][y])
+                            lineFill = false;
+                    }
+                    if (lineFill)
+                    {
+                        printf("fill\n");
+                        int s = 0; //スコア判定用カウンタ
+                        // for (x = y; 0 < x; x--)
+                        // {
+                        //     memcpy(backBuffer[x], backBuffer[x - 1], FIELD_WIDTH);
+                        //     s = (FIELD_HEIGHT - 1) - y; //下から何回消しているかを計算
+                        // }
+                        for (int i = y; 0 < i; i--)
+                        {
+                            for(int j = 0; j < FIELD_WIDTH; j++)
+                            {
+                                //このyに対して、[W][H]のWをひとつ下げる
+                                field[j][i] = field[j][i - 1];
+                            }
+                            s = (FIELD_HEIGHT - 1) - y; //下から何回消しているかを計算
+                            y--;
+                        }
+                        //f_score(s, &score);
+                    }
+                }
+
 
                 minoX = DEFAULT_POS_X;
                 minoY = DEFAULT_POS_Y;
@@ -405,79 +362,5 @@ int main(void)
         }
     }
 
-    //to
-
-    // {
-    //描画する処理の前に現在時刻と異なっていたら描画する（1秒ごと更新）
-    //backBufferを描画
-    // }
-
-    // else if(dy)//秒数が経過していれば
-    // {
-    //     //画面描画の準備
-    //     //固定みのを描画
-    //     //minoX,minoY,を初期値にする
-    //     //angleを適当に変える
-
-    //     //ゲームオーバー判定
-
-    //     //行が揃っていたら消す
-    //     //次のみのを決める
-
-    //     //画面に描画する
-    // }
-
-    // printf("minoX = %d, minoY = %d, minoType = %d, minoAngle = %d\n", minoX, minoY, minoType, minoAngle); //debug
-
-    // for (int y = 0; y < FIELD_HEIGHT; ++y)
-    // {
-    //     for (int x = 0; x < FIELD_WIDTH; x++)
-    //     {
-    //         printf("%s", backBuffer[x][y] ? "回" : "・");
-    //     }
-    //     printf("\n");
-    // }
-    // if (minoY >= FIELD_HEIGHT - 2)
-    // {
-    //     printf("bottom !\n");
-    //     writeMino(*field, minoX, minoY, minoType, minoAngle);
-    //     minoX = 5;
-    //     minoY = 0;
-    // }
-
-    // for (int y = 0; y < FIELD_HEIGHT; ++y)
-    // {
-    //     for (int x = 0; x < FIELD_WIDTH; x++)
-    //     {
-    //         printf("%s", field[x][y] ? "口" : "　");
-    //     }
-    //     printf("\n");
-    // }
-
-    //backBufferへminoを追加
-    // for (int y = 0; y < MINO_HEIGHT; y++)
-    // {
-    //     for (int x = 0; x < MINO_WIDTH; x++)
-    //     {
-    //         backBuffer[minoX + x][minoY + y] |= minoShapes[minoType][minoAngle][x][y];
-    //     }
-    // }
-
-    //ボトム判定
-    // for (int w = 0; w < MINO_WIDTH; w++)
-    // {
-    //     for (int h = MINO_HEIGHT - 1; h < 0; h--)
-    //     {
-    //         if(minoShapes[minoType][minoAngle][w][h])
-    //         {
-    //             if(h+minoY > FIELD_HEIGHT-1) {
-    //                 printf("bottom\n");
-    //                 writeMino(*field, minoX, minoY, minoType, minoAngle);
-    //                 minoX = 5;
-    //                 minoY = 0;
-    //             }
-    //         }
-    //     }
-    // }
     return 0;
 }
