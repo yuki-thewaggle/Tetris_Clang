@@ -64,8 +64,8 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
             //MINO_ANGLE_90
             {
                 0, 0, 0, 0,
-                0, 0, 0, 0,
                 1, 1, 1, 1,
+                0, 0, 0, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
@@ -76,8 +76,8 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
             //MINO_ANGLE_270
             {
                 0, 0, 0, 0,
-                1, 1, 1, 1,
                 0, 0, 0, 0,
+                1, 1, 1, 1,
                 0, 0, 0, 0},
         },
         //MINO_TYPE_O
@@ -117,22 +117,22 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
                 0, 0, 0, 0},
             //MINO_ANGLE_90
             {
-                0, 0, 1, 0,
-                0, 0, 1, 1,
-                0, 0, 0, 1,
-                0, 0, 0, 0},
+                0, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0},
             //MINO_ANGLE_180
             {
-                0, 0, 1, 1,
-                0, 1, 1, 0,
                 0, 0, 0, 0,
-                0, 0, 0, 0},
+                0, 0, 0, 0,
+                0, 0, 1, 1,
+                0, 1, 1, 0},
             //MINO_ANGLE_270
             {
-                0, 0, 1, 0,
-                0, 1, 1, 0,
+                0, 0, 0, 0,
                 0, 1, 0, 0,
-                0, 0, 0, 0},
+                0, 1, 1, 0,
+                0, 0, 1, 0},
         },
         //MINO_TYPE_Z
         {
@@ -144,9 +144,9 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
                 0, 0, 0, 0},
             //MINO_ANGLE_90
             {
+                0, 0, 1, 0,
+                0, 1, 1, 0,
                 0, 1, 0, 0,
-                1, 1, 0, 0,
-                1, 0, 0, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
@@ -156,35 +156,35 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
                 0, 0, 0, 0},
             //MINO_ANGLE_270
             {
-                0, 0, 0, 0,
                 0, 0, 1, 0,
                 0, 1, 1, 0,
-                0, 1, 0, 0},
+                0, 1, 0, 0,
+                0, 0, 0, 0},
         },
         //MINO_TYPE_J
         {
             //MINO_ANGLE_0
             {
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                1, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
                 1, 0, 0, 0,
                 1, 1, 1, 0,
                 0, 0, 0, 0,
                 0, 0, 0, 0},
-            //MINO_ANGLE_90
-            {
-                0, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 1, 0, 0,
-                1, 1, 0, 0},
             //MINO_ANGLE_180
             {
-                0, 0, 0, 0,
-                0, 0, 0, 0,
-                0, 1, 1, 1,
-                0, 0, 0, 1},
+                0, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
             //MINO_ANGLE_270
             {
-                0, 0, 1, 1,
-                0, 0, 1, 0,
+                0, 0, 0, 0,
+                1, 1, 1, 0,
                 0, 0, 1, 0,
                 0, 0, 0, 0},
         },
@@ -192,28 +192,28 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
         {
             //MINO_ANGLE_0
             {
-                0, 0, 0, 1,
-                0, 1, 1, 1,
-                0, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 1, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_90
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 0,
+                1, 0, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
             {
                 1, 1, 0, 0,
                 0, 1, 0, 0,
                 0, 1, 0, 0,
                 0, 0, 0, 0},
-            //MINO_ANGLE_180
-            {
-                0, 0, 0, 0,
-                0, 0, 0, 0,
-                1, 1, 1, 0,
-                1, 0, 0, 0},
             //MINO_ANGLE_270
             {
                 0, 0, 0, 0,
                 0, 0, 1, 0,
-                0, 0, 1, 0,
-                0, 0, 1, 1},
+                1, 1, 1, 0,
+                0, 0, 0, 0},
         },
         //MINO_TYPE_T
         {
@@ -225,10 +225,10 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
                 0, 0, 0, 0},
             //MINO_ANGLE_90
             {
-                0, 0, 0, 0,
                 0, 1, 0, 0,
-                0, 1, 1, 0,
-                0, 1, 0, 0},
+                1, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
             //MINO_ANGLE_180
             {
                 0, 0, 0, 0,
@@ -237,10 +237,12 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDHT] =
                 0, 0, 0, 0},
             //MINO_ANGLE_270
             {
-                0, 0, 0, 0,
-                0, 0, 1, 0,
+                0, 1, 0, 0,
                 0, 1, 1, 0,
-                0, 0, 1, 0}}};
+                0, 1, 0, 0,
+                0, 0, 0, 0}
+            }
+        };
 void display(int add_t, int add_total_score)
 {
     int t = add_t;

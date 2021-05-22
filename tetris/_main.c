@@ -377,15 +377,6 @@ int main(void)
                 {
                     da = 1;
                 }
-                else
-                {
-                    int _dx = minoX < FIELD_WIDTH / 2 ? 1 : -1;
-                    if (check(minoX + _dx, minoY, minoType, minoAngle + 1))
-                    {
-                        dx = _dx;
-                        da = 1;
-                    }
-                }
                 break;
             case 0x20:
                 if (check(minoX, minoY + 1, minoType, minoAngle))
@@ -432,12 +423,6 @@ int main(void)
                         }
                     }
                 }
-
-                minoX = DEFAULT_POS_X;
-                minoY = DEFAULT_POS_Y;
-                minoAngle = rand() % MINO_ANGLE_MAX;
-                // minoType = rand() % MINO_TYPE_MAX;
-                minoType = (minoType + 1) % MINO_TYPE_MAX;
             }
 
             draw();
