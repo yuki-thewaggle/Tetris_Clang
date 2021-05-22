@@ -408,6 +408,7 @@ int main(void)
             }
             else
             {
+                printf("fix\n");
                 writeMino(field, minoX, minoY, minoType, minoAngle);
 
                 int x, y;
