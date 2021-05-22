@@ -4,8 +4,6 @@
 #include <string.h>
 #include <time.h>
 #include <conio.h>
-//#include "conio.h"  //for mac
-//#include <curses.h> //for mac
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
