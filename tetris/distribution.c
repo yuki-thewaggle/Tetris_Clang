@@ -3,9 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-//#include <conio.h>
-#include "conio.h"  //for mac
-#include <curses.h> //for mac
+#include <conio.h>
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
@@ -291,13 +289,13 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
             {
                 if (_nextX < 1 || _nextX > FIELD_WIDTH - 2 || _nextY > FIELD_HEIGHT - 1)
                 {
-                    printf("out\n");
+                    // printf("out\n");
                     return false;
                 }
 
                 if (field[_nextX][_nextY] == 1)
                 {
-                    printf("cannot move\n");
+                    // printf("cannot move\n");
                     return false;
                 }
             }
@@ -374,18 +372,7 @@ int main(void)
                 break;
             case 'w':
                 if (check(minoX, minoY, minoType, minoAngle + 1))
-                {
                     da = 1;
-                }
-                else
-                {
-                    int _dx = minoX < FIELD_WIDTH / 2 ? 1 : -1;
-                    if (check(minoX + _dx, minoY, minoType, minoAngle + 1))
-                    {
-                        dx = _dx;
-                        da = 1;
-                    }
-                }
                 break;
             case 0x20:
                 if (check(minoX, minoY + 1, minoType, minoAngle))
@@ -432,12 +419,6 @@ int main(void)
                         }
                     }
                 }
-
-                minoX = DEFAULT_POS_X;
-                minoY = DEFAULT_POS_Y;
-                minoAngle = rand() % MINO_ANGLE_MAX;
-                minoType = rand() % MINO_TYPE_MAX;
-                // minoType = (minoType + 1) % MINO_TYPE_MAX;
             }
 
             draw();
