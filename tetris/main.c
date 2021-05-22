@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
-//#include "conio.h"  //for mac
-//#include <curses.h> //for mac
+//#include <conio.h>
+#include "conio.h"  //for mac
+#include <curses.h> //for mac
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
@@ -31,7 +31,7 @@ enum
     MINO_TYPE_O,
     MINO_TYPE_S,
     MINO_TYPE_Z,
-    MINO_TYPE_W,
+    MINO_TYPE_J,
     MINO_TYPE_L,
     MINO_TYPE_T,
     MINO_TYPE_MAX
@@ -129,7 +129,7 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
              {0, 1, 1, 0},
              {0, 0, 0, 0}},
         },
-        //MINO_TYPE_W
+        //MINO_TYPE_J
         {
             //MINO_ANGLE_0
             {{0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}, {0, 1, 0, 0}},
