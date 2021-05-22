@@ -285,19 +285,10 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
                 continue;
             }
 
-            if (minoShapes[minoType][_nextA][h][w])
+            if (minoShapes[minoType][_nextA][h][w] && field[_nextX][_nextY] == 1)
             {
-                if (_nextX < 1 || _nextX > FIELD_WIDTH - 2 || _nextY > FIELD_HEIGHT - 1)
-                {
-                    // printf("out\n");
-                    return false;
-                }
-
-                if (field[_nextX][_nextY] == 1)
-                {
-                    // printf("cannot move\n");
-                    return false;
-                }
+                // printf("cannot move\n");
+                return false;
             }
         }
     }
