@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
-//#include "conio.h"  //for mac
-//#include <curses.h> //for mac
+//#include <conio.h>
+#include "conio.h"  //for mac
+#include <curses.h> //for mac
 
 #define FIELD_HEIGHT 21 //枠を含む
 #define FIELD_WIDTH 12  //枠を含む
@@ -284,7 +284,7 @@ int main(void)
                 if (check(minoX - 1, minoY, minoType, minoAngle))
                     dx = -1;
                 break;
-            case 's':
+            case 0x20:
                 if (check(minoX, minoY + 1, minoType, minoAngle))
                     dy = 1;
                 break;
@@ -292,7 +292,7 @@ int main(void)
                 if (check(minoX + 1, minoY, minoType, minoAngle))
                     dx = 1;
                 break;
-            case 0x20:
+            case 'w':
                 if (check(minoX, minoY, minoType, minoAngle + 1))
                     da = 1;
                 break;
