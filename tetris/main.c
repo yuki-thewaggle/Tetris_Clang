@@ -282,10 +282,6 @@ int main(void)
                 if (check(minoX - 1, minoY, minoType, minoAngle))
                     dx = -1;
                 break;
-            case 0x20:
-                if (check(minoX, minoY + 1, minoType, minoAngle))
-                    dy = 1;
-                break;
             case 'd':
                 if (check(minoX + 1, minoY, minoType, minoAngle))
                     dx = 1;
@@ -293,6 +289,10 @@ int main(void)
             case 'w':
                 if (check(minoX, minoY, minoType, minoAngle + 1))
                     da = 1;
+                break;
+            case 0x20:
+                if (check(minoX, minoY + 1, minoType, minoAngle))
+                    dy = 1;
                 break;
             }
 
