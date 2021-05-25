@@ -16,6 +16,8 @@
 #define DEFAULT_POS_X 5
 #define DEFAULT_POS_Y (-MINO_HEIGHT + 1)
 
+#define PLAYER_NAME_SIZE 1024
+
 enum
 {
     MINO_ANGLE_0,
@@ -37,207 +39,212 @@ enum
     MINO_TYPE_MAX
 };
 
-int minoX = DEFAULT_POS_X;
-int minoY = DEFAULT_POS_Y;
+int nextMinoX = DEFAULT_POS_X;
+int nextMinoY = DEFAULT_POS_Y;
+int nextMinoAngle = 0;
+int nextMinoType = 0;
+
+int minoX = 0;
+int minoY = 0;
 int minoAngle = 0;
 int minoType = 0;
+
 int score = 0;
+char playerName[PLAYER_NAME_SIZE] = "player";
 
 int field[FIELD_WIDTH][FIELD_HEIGHT];
 int displayBuffer[FIELD_WIDTH][FIELD_HEIGHT] = {};
 
 char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
-{
-    //MINO_TYPE_I
     {
-        //MINO_ANGLE_0
+        //MINO_TYPE_I
         {
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 0, 0},
-        //MINO_ANGLE_90
+            //MINO_ANGLE_0
+            {
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 1,
+                0, 0, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                0, 0, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                1, 1, 1, 1,
+                0, 0, 0, 0},
+        },
+        //MINO_TYPE_O
         {
-            0, 0, 0, 0,
-            1, 1, 1, 1,
-            0, 0, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
+            //MINO_ANGLE_0
+            {
+                0, 0, 0, 0,
+                0, 1, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 0, 0, 0,
+                0, 1, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                0, 0, 0, 0,
+                0, 1, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 0, 0,
+                0, 1, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+        },
+        //MINO_TYPE_S
         {
-            0, 0, 1, 0,
-            0, 0, 1, 0,
-            0, 0, 1, 0,
-            0, 0, 1, 0},
-        //MINO_ANGLE_270
+            //MINO_ANGLE_0
+            {
+                0, 0, 0, 0,
+                0, 0, 1, 1,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0},
+            //MINO_ANGLE_180
+            {
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 1, 1,
+                0, 1, 1, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0},
+        },
+        //MINO_TYPE_Z
         {
-            0, 0, 0, 0,
-            0, 0, 0, 0,
-            1, 1, 1, 1,
-            0, 0, 0, 0},
-    },
-    //MINO_TYPE_O
-    {
-        //MINO_ANGLE_0
+            //MINO_ANGLE_0
+            {
+                0, 0, 0, 0,
+                1, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 0, 1, 0,
+                0, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                0, 0, 0, 0,
+                1, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 1, 0,
+                0, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+        },
+        //MINO_TYPE_J
         {
-            0, 0, 0, 0,
-            0, 1, 1, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
+            //MINO_ANGLE_0
+            {
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                1, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                1, 0, 0, 0,
+                1, 1, 1, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                0, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 0},
+        },
+        //MINO_TYPE_L
         {
-            0, 0, 0, 0,
-            0, 1, 1, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
+            //MINO_ANGLE_0
+            {
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 0,
+                1, 0, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                1, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_270
+            {
+                0, 0, 0, 0,
+                0, 0, 1, 0,
+                1, 1, 1, 0,
+                0, 0, 0, 0},
+        },
+        //MINO_TYPE_T
         {
-            0, 0, 0, 0,
-            0, 1, 1, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_270
-        {
-            0, 0, 0, 0,
-            0, 1, 1, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-    },
-    //MINO_TYPE_S
-    {
-        //MINO_ANGLE_0
-        {
-            0, 0, 0, 0,
-            0, 0, 1, 1,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
-        {
-            0, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 0, 1, 0},
-        //MINO_ANGLE_180
-        {
-            0, 0, 0, 0,
-            0, 0, 0, 0,
-            0, 0, 1, 1,
-            0, 1, 1, 0},
-        //MINO_ANGLE_270
-        {
-            0, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 0, 1, 0},
-    },
-    //MINO_TYPE_Z
-    {
-        //MINO_ANGLE_0
-        {
-            0, 0, 0, 0,
-            1, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
-        {
-            0, 0, 1, 0,
-            0, 1, 1, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
-        {
-            0, 0, 0, 0,
-            1, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_270
-        {
-            0, 0, 1, 0,
-            0, 1, 1, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-    },
-    //MINO_TYPE_J
-    {
-        //MINO_ANGLE_0
-        {
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            1, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
-        {
-            1, 0, 0, 0,
-            1, 1, 1, 0,
-            0, 0, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
-        {
-            0, 1, 1, 0,
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_270
-        {
-            0, 0, 0, 0,
-            1, 1, 1, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 0},
-    },
-    //MINO_TYPE_L
-    {
-        //MINO_ANGLE_0
-        {
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
-        {
-            0, 0, 0, 0,
-            1, 1, 1, 0,
-            1, 0, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
-        {
-            1, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_270
-        {
-            0, 0, 0, 0,
-            0, 0, 1, 0,
-            1, 1, 1, 0,
-            0, 0, 0, 0},
-    },
-    //MINO_TYPE_T
-    {
-        //MINO_ANGLE_0
-        {
-            0, 0, 0, 0,
-            1, 1, 1, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_90
-        {
-            0, 1, 0, 0,
-            1, 1, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_180
-        {
-            0, 0, 0, 0,
-            0, 1, 0, 0,
-            1, 1, 1, 0,
-            0, 0, 0, 0},
-        //MINO_ANGLE_270
-        {
-            0, 1, 0, 0,
-            0, 1, 1, 0,
-            0, 1, 0, 0,
-            0, 0, 0, 0}
-    }
-};
+            //MINO_ANGLE_0
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_90
+            {
+                0, 1, 0, 0,
+                1, 1, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_180
+            {
+                0, 0, 0, 0,
+                0, 1, 0, 0,
+                1, 1, 1, 0,
+                0, 0, 0, 0},
+            //MINO_ANGLE_270
+            {
+                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0}}};
 
 //fieldの初期化
 void initField()
@@ -268,6 +275,78 @@ void copyField()
     }
 }
 
+//タイトルを表示
+void displayTitle()
+{
+    system("clear");
+    printf("\n\n\n----- TETRiS -----\n\n\n");
+}
+
+//プレイヤー名を入力・セット
+void setPlayerName()
+{
+    printf("プレイヤー名を入力してください：");
+    scanf("%s", playerName);
+    _getch();
+
+    printf("プレイヤー名は「%s」でよろしいですか？よろしければ y を入力してください\n", playerName);
+
+    char res;
+    scanf("%c", &res);
+
+    if (res == 'y')
+    {
+        return;
+    }
+    setPlayerName();
+}
+
+//コンソール画面をクリア
+void clearDisplay()
+{
+    system("clear");
+}
+
+//プレイヤー名とスコアを表示
+void displayData()
+{
+    printf("プレイヤー名：%s\t", playerName);
+    printf("スコア：%d\n", score);
+}
+
+//次のミノを画面に表示
+void displayNext()
+{
+    for (int w = 0; w < MINO_WIDTH; w++)
+    {
+        for (int h = 0; h < MINO_HEIGHT; h++)
+        {
+            printf("%s", minoShapes[nextMinoType][nextMinoAngle][w][h] ? "回" : "・");
+        }
+        printf("\n");
+    }
+}
+
+//
+
+//次のミノをランダムに生成
+void selectNext()
+{
+    nextMinoType = rand() % MINO_TYPE_MAX;
+    nextMinoAngle = rand() % MINO_ANGLE_MAX;
+    // printf("@selectNext : %d, %d\n", nextMinoAngle, nextMinoAngle);
+}
+
+//次のミノを現在のミノに設定
+void setCurrent()
+{
+    minoX = DEFAULT_POS_X;
+    minoY = DEFAULT_POS_Y;
+    minoType = nextMinoType;
+    minoAngle = nextMinoAngle;
+    // printf("@setCurrent : %d, %d\n", minoType, minoAngle);
+}
+
 //ミノの移動チェック
 bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
 {
@@ -289,7 +368,7 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
 
             if (minoShapes[minoType][_nextA][h][w] && field[_nextX][_nextY] == 1)
             {
-                printf("cannot move\n");
+                // printf("cannot move\n");
                 return false;
             }
         }
@@ -324,6 +403,8 @@ void writeMino(int target[FIELD_WIDTH][FIELD_HEIGHT], int _nextX, int _nextY, in
 //コンソールに描画
 void draw()
 {
+    clearDisplay();
+
     copyField();
     writeMino(displayBuffer, minoX, minoY, minoType, minoAngle);
 
@@ -335,15 +416,40 @@ void draw()
         }
         printf("\n");
     }
+
+    displayNext();
+    displayData();
+}
+
+void gameStart()
+{
+    initField();
+
+    selectNext();
+    setCurrent();
+    selectNext();
+
+    clearDisplay();
+
+    displayData();
+    printf("Enterキーを押してゲームスタート！\n");
+    _getch();
+    _getch();
+
+    clearDisplay();
 }
 
 int main(void)
 {
     system("chcp 65001");
 
-    time_t t = time(NULL); //tに現在時刻を入力
+    displayTitle();
 
-    initField();
+    setPlayerName();
+
+    gameStart();
+
+    time_t t = time(NULL); //tに現在時刻を入力
 
     while (1)
     {
@@ -356,14 +462,17 @@ int main(void)
             switch (_getch())
             {
             case 'a':
+            case 0x44:
                 if (check(minoX - 1, minoY, minoType, minoAngle))
                     dx = -1;
                 break;
             case 'd':
+            case 0x43:
                 if (check(minoX + 1, minoY, minoType, minoAngle))
                     dx = 1;
                 break;
             case 'w':
+            case 0x41:
                 if (check(minoX, minoY, minoType, minoAngle + 1))
                 {
                     da = 1;
@@ -379,6 +488,7 @@ int main(void)
                 }
                 break;
             case 0x20:
+            case 0x42:
                 if (check(minoX, minoY + 1, minoType, minoAngle))
                     dy = 1;
                 break;
@@ -399,7 +509,7 @@ int main(void)
             }
             else
             {
-                printf("fix\n");
+                // printf("fix\n");
                 writeMino(field, minoX, minoY, minoType, minoAngle);
 
                 int x, y;
@@ -424,12 +534,8 @@ int main(void)
                         }
                     }
                 }
-
-                minoX = DEFAULT_POS_X;
-                minoY = DEFAULT_POS_Y;
-                minoAngle = rand() % MINO_ANGLE_MAX;
-                minoType = rand() % MINO_TYPE_MAX;
-                // minoType = (minoType + 1) % MINO_TYPE_MAX;
+                setCurrent();                
+                selectNext();
             }
 
             draw();
