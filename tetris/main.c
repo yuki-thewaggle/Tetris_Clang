@@ -327,14 +327,31 @@ void displayNext()
     }
 }
 
-//
+//スコア加算
+void addScore(int _count)
+{
+    switch(_count){
+        case 1:
+            score += 40;
+            break;
+        case 2:
+            score += 100;
+            break;
+        case 3:
+            score += 300;
+            break;
+        case 4:
+            score += 1200;
+            break;            
+        }
+}
 
 //次のミノをランダムに生成
 void selectNext()
 {
-    nextMinoType = rand() % MINO_TYPE_MAX;
-    nextMinoAngle = rand() % MINO_ANGLE_MAX;
-    // printf("@selectNext : %d, %d\n", nextMinoAngle, nextMinoAngle);
+    // nextMinoType = rand() % MINO_TYPE_MAX;
+    // nextMinoAngle = rand() % MINO_ANGLE_MAX;
+    nextMinoType = nextMinoAngle = 0;   //debug
 }
 
 //次のミノを現在のミノに設定
@@ -344,7 +361,6 @@ void setCurrent()
     minoY = DEFAULT_POS_Y;
     minoType = nextMinoType;
     minoAngle = nextMinoAngle;
-    // printf("@setCurrent : %d, %d\n", minoType, minoAngle);
 }
 
 //ミノの移動チェック
@@ -439,6 +455,15 @@ void gameStart()
     clearDisplay();
 }
 
+void gameOver()
+{
+    clearDisplay();
+    printf("GameOver\n");
+
+    displayData();
+}
+
+
 int main(void)
 {
     system("chcp 65001");
@@ -512,10 +537,17 @@ int main(void)
                 // printf("fix\n");
                 writeMino(field, minoX, minoY, minoType, minoAngle);
 
+                if(minoY < 0)
+                {
+                    break;
+                }
+
                 int x, y;
+                int count = 0;
                 for (y = 0; y < FIELD_HEIGHT - 1; y++)
                 {
                     bool lineFill = true;
+
                     for (x = 1; x < FIELD_WIDTH - 1; x++)
                     {
                         if (!field[x][y])
@@ -523,6 +555,7 @@ int main(void)
                     }
                     if (lineFill)
                     {
+                        count++;
                         // printf("fill\n");
                         for (int i = y; 0 < i; i--)
                         {
@@ -531,16 +564,20 @@ int main(void)
                                 field[j][i] = field[j][i - 1];
                             }
                             y--;
+                            printf("count : %d\n", count);
                         }
                     }
                 }
-                setCurrent();                
+                addScore(count);
+                setCurrent();
                 selectNext();
             }
 
             draw();
         }
     }
+
+    gameOver();
 
     return 0;
 }
