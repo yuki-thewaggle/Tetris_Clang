@@ -510,6 +510,15 @@ int main(void)
                         dx = _dx;
                         da = 1;
                     }
+                    else
+                    {
+                        _dx = _dx > 0 ? _dx + 1 : _dx - 1;
+                        if (check(minoX + _dx, minoY, minoType, minoAngle + 1))
+                        {
+                            dx = _dx;
+                            da = 1;
+                        }
+                    }
                 }
                 break;
             case 0x20:
