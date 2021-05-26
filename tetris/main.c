@@ -463,6 +463,10 @@ void gameOver()
     displayData();
 }
 
+double getElapsedTime(clock_t stop, clock_t start)
+{
+    return (double)(stop - start) / CLOCKS_PER_SEC;
+}
 
 int main(void)
 {
@@ -474,7 +478,8 @@ int main(void)
 
     gameStart();
 
-    time_t t = time(NULL); //tに現在時刻を入力
+    // time_t t = time(NULL); //tに現在時刻を入力
+    clock_t startTime = clock();
 
     while (1)
     {
@@ -532,9 +537,11 @@ int main(void)
             draw();
         }
 
-        if (t != time(NULL))
+        // if (t != time(NULL))
+        if (getElapsedTime(clock(), startTime) > 1)
         {
-            t = time(NULL);
+            // t = time(NULL);
+            startTime = clock();
             dy++;
 
             if (check(minoX + dx, minoY + dy, minoType, minoAngle + da))
