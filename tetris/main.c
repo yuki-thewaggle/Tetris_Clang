@@ -61,15 +61,15 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
         {
             //MINO_ANGLE_0
             {
-                0, 1, 0, 0,
-                0, 1, 0, 0,
-                0, 1, 0, 0,
-                0, 1, 0, 0},
+                0, 0, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0},
             //MINO_ANGLE_90
             {
                 0, 0, 0, 0,
-                1, 1, 1, 1,
                 0, 0, 0, 0,
+                1, 1, 1, 1,
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
@@ -169,15 +169,15 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
         {
             //MINO_ANGLE_0
             {
-                0, 1, 0, 0,
-                0, 1, 0, 0,
-                1, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0,
+                0, 1, 1, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_90
             {
+                0, 0, 0, 0,
                 1, 0, 0, 0,
                 1, 1, 1, 0,
-                0, 0, 0, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
@@ -208,9 +208,9 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
-                1, 1, 0, 0,
-                0, 1, 0, 0,
-                0, 1, 0, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0,
+                0, 0, 1, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_270
             {
@@ -229,9 +229,9 @@ char minoShapes[MINO_TYPE_MAX][MINO_ANGLE_MAX][MINO_HEIGHT][MINO_WIDTH] =
                 0, 0, 0, 0},
             //MINO_ANGLE_90
             {
-                0, 1, 0, 0,
-                1, 1, 0, 0,
-                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 1, 1, 0,
+                0, 0, 1, 0,
                 0, 0, 0, 0},
             //MINO_ANGLE_180
             {
@@ -349,9 +349,9 @@ void addScore(int _count)
 //次のミノをランダムに生成
 void selectNext()
 {
-    // nextMinoType = rand() % MINO_TYPE_MAX;
-    // nextMinoAngle = rand() % MINO_ANGLE_MAX;
-    nextMinoType = nextMinoAngle = 0;   //debug
+    nextMinoType = rand() % MINO_TYPE_MAX;
+    nextMinoAngle = rand() % MINO_ANGLE_MAX;
+    // nextMinoType = nextMinoAngle = 0;   //debug
 }
 
 //次のミノを現在のミノに設定
@@ -377,16 +377,27 @@ bool check(int _minoX, int _minoY, int minoType, int _minoAngle)
             _nextX = _minoX + w;
             _nextY = _minoY + h;
 
-            if (_nextY < 0 || minoShapes[minoType][_nextA][h][w] == 0)
+            if (_nextY <= 0 || minoShapes[minoType][_nextA][h][w] == 0)
             {
                 continue;
             }
 
-            if (minoShapes[minoType][_nextA][h][w] && field[_nextX][_nextY] == 1)
+            if (field[_nextX][_nextY] == 1)
             {
-                // printf("cannot move\n");
                 return false;
             }
+
+            //     if ((_nextX < 1 || _nextX >= FIELD_WIDTH + 2 || _nextY >= FIELD_HEIGHT + 1) && _nextY > 0)
+            //     {
+            //         printf("out\n");
+            //         return false;
+            //     }
+
+            //     if ((minoShapes[minoType][_nextA][h][w] && field[_nextX][_nextY] == 1) && _nextY > 0)
+            //     {
+            //         printf("cannot move\n");
+            //         return false;
+            //     }
         }
     }
     return true;
@@ -455,21 +466,37 @@ void gameStart()
     clearDisplay();
 }
 
+bool checkGameOver()
+{
+    for(int x = 1; x <= FIELD_WIDTH -2; x++)
+    {
+        if(field[x][0])
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void gameOver()
 {
     clearDisplay();
-    printf("GameOver\n");
+    printf("\n\n\n----- GAME OVER -----\n\n\n");
 
     displayData();
+    printf("\n\n");
 }
 
-double getElapsedTime(clock_t stop, clock_t start)
+double getElapsed(clock_t stop, clock_t start)
 {
     return (double)(stop - start) / CLOCKS_PER_SEC;
 }
 
 int main(void)
 {
+    bool startFlag = false;
+
     system("chcp 65001");
 
     displayTitle();
@@ -480,6 +507,9 @@ int main(void)
 
     // time_t t = time(NULL); //tに現在時刻を入力
     clock_t startTime = clock();
+    clock_t pressedTime = clock();
+
+    bool pressed = false;
 
     while (1)
     {
@@ -487,62 +517,93 @@ int main(void)
         int dy = 0; //縦移動
         int da = 0; //回転
 
+        pressed = false;
+
         if (_kbhit())
         {
+            // bool minoTypeIFlag = minoType == 0 && minoY > -1 && (minoX;
             switch (_getch())
             {
-            case 'a':
-            case 0x44:
-                if (check(minoX - 1, minoY, minoType, minoAngle))
-                    dx = -1;
-                break;
-            case 'd':
-            case 0x43:
-                if (check(minoX + 1, minoY, minoType, minoAngle))
-                    dx = 1;
-                break;
-            case 'w':
-            case 0x41:
-                if (check(minoX, minoY, minoType, minoAngle + 1))
-                {
-                    da = 1;
-                }
-                else
-                {
-                    int _dx = minoX < FIELD_WIDTH / 2 ? 1 : -1;
-                    if (check(minoX + _dx, minoY, minoType, minoAngle + 1))
+                case 'a':
+                case 0x44:
+                    if (minoY > DEFAULT_POS_Y + 1 && check(minoX - 1, minoY, minoType, minoAngle))
                     {
-                        dx = _dx;
+                        pressed = true;
+                        pressedTime = clock();
+                        if(minoX > 0)
+                        {
+                            dx = -1;
+                        }
+                    }
+                    break;
+                case 'd':
+                case 0x43:
+                    if (minoY > DEFAULT_POS_Y + 1 && check(minoX + 1, minoY, minoType, minoAngle))
+                    {
+                        pressed = true;
+                        pressedTime = clock();
+                        dx = 1;
+                    }
+                    break;
+                case 'w':
+                case 0x41:
+                    if (minoY > DEFAULT_POS_Y + 1 && check(minoX, minoY, minoType, minoAngle + 1))
+                    {
+                        pressed = true;
+                        pressedTime = clock();
                         da = 1;
                     }
                     else
                     {
-                        _dx = _dx > 0 ? _dx + 1 : _dx - 1;
-                        if (check(minoX + _dx, minoY, minoType, minoAngle + 1))
+                        int _dx = minoX < FIELD_WIDTH / 2 ? 1 : -1;
+                        pressed = true;
+                        pressedTime = clock();
+                        if (minoY > DEFAULT_POS_Y + 1 && check(minoX + _dx, minoY, minoType, minoAngle + 1))
                         {
                             dx = _dx;
                             da = 1;
                         }
+                        else
+                        {
+                            _dx = _dx > 0 ? _dx + 1 : _dx - 1;
+                            if (minoY > DEFAULT_POS_Y + 1 && check(minoX + _dx, minoY, minoType, minoAngle + 1))
+                            {
+                                dx = _dx;
+                                da = 1;
+                            }
+                        }
                     }
-                }
-                break;
-            case 0x20:
-            case 0x42:
-                if (check(minoX, minoY + 1, minoType, minoAngle))
-                    dy = 1;
-                break;
+                    break;
+                case 0x20:
+                case 0x42:
+                    if (minoY > DEFAULT_POS_Y + 1 && check(minoX, minoY + 1, minoType, minoAngle))
+                    {
+                        pressedTime = clock();
+                        dy = 1;
+                    }
+                    break;
             }
 
             moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
+
+            // if (!check(minoX, minoY, minoType, minoAngle) && checkGameOver())
+            // {
+            //     break;
+            // }
+
             draw();
         }
 
+        double elapsedPressed = getElapsed(clock(), pressedTime);
+        double elapsedStart = getElapsed(clock(), startTime);
         // if (t != time(NULL))
-        if (getElapsedTime(clock(), startTime) > 1)
+        if ((pressed && elapsedPressed > 1.0) || elapsedStart > 1.0)
         {
             // t = time(NULL);
             startTime = clock();
-            dy++;
+            //pressedTime = clock();
+            pressedTime += 1.0;
+            dy = 1;
 
             if (check(minoX + dx, minoY + dy, minoType, minoAngle + da))
             {
@@ -552,11 +613,6 @@ int main(void)
             {
                 // printf("fix\n");
                 writeMino(field, minoX, minoY, minoType, minoAngle);
-
-                if(minoY < 0)
-                {
-                    break;
-                }
 
                 int x, y;
                 int count = 0;
@@ -580,13 +636,18 @@ int main(void)
                                 field[j][i] = field[j][i - 1];
                             }
                             y--;
-                            printf("count : %d\n", count);
+                            // printf("count : %d\n", count);
                         }
                     }
                 }
                 addScore(count);
                 setCurrent();
                 selectNext();
+
+                if (checkGameOver())
+                {
+                    break;
+                }
             }
 
             draw();
